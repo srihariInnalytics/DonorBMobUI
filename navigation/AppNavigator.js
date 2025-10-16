@@ -5,13 +5,14 @@ import Login from '../screen/login/Login';
 import HomeScreen from '../screen/Home/Home';
 import Profile from '../screen/Profile/Profile'
 import Dummy from '../screen/Dummy/Dummy'
+import Signin from '../screen/Signin/Signin'
 
 const Stack = createStackNavigator();
 
 const AppNav = () => {
 
   return (
-    <Stack.Navigator initialRouteName='Home'>
+    <Stack.Navigator initialRouteName='Signin'>
 
       <Stack.Screen
         name="Home"
@@ -22,6 +23,11 @@ const AppNav = () => {
         name="Login"
         component={Login}
         options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Signin"
+        component={Signin}
       />
 
 

@@ -1,42 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { TextInput as PaperInput } from 'react-native-paper';
 import { colors } from '../../component/config/config';
 
-function TextBox({ label, value, onChange, mode = 'outlined', disabled }) {
-    return (
-        <View style={styles.row}>
-            <PaperInput
-                label={label}
-                value={value}
-                style={styles.input} // ✅ Corrected style applied
-                onChangeText={onChange}
-                mode={mode}
-                theme={{
-                    colors: {
-                        primary: colors.data,
-                        error: colors.error,
-                        outline: colors.data,
-                        disabled: 'red',
-                    },
-                    roundness: 4,
-                }}
-                disabled={disabled}
-            />
-        </View>
-    )
-}
+const TextBox = ({ label, onlyInteger = false, value, onChange, disabled = false }) => {
+    const [isFocused, setIsFocused] = useState(false);
 
-export default TextBox
+    return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <PaperInput
+                    label={label}
+                    value={value}
+                    onChangeText={onChange}
+                    mode="outlined"
+                    style={styles.input}
+                    theme={{
+                        colors: {
+                            primary: colors.data,       // floating label & outline on focus
+                            text: 'black',              // input text
+                            placeholder: 'gray',        // placeholder
+                            background: colors.textLight, // textbox background
+                            outline: 'gray',            // border when not focused
+                        },
+                    }}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
+                    disabled={disabled}
+                    contentStyle={{ paddingVertical: 10 }} // ✅ adds space for label
+                    keyboardType={onlyInteger ? 'numeric' : 'text'}
+                />
+            </View>
+        </TouchableWithoutFeedback>
+    );
+};
+
+export default TextBox;
 
 const styles = StyleSheet.create({
-    row: {
-        flexDirection: 'column', // ✅ Ensures error text appears below input
-        marginBottom: 10,
+    container: {
+        marginVertical: 8,
+        paddingHorizontal: 10,
     },
     input: {
-        flex: 1,
-        marginRight: 5,
+        fontSize: 16,
+        borderRadius: 6,
         backgroundColor: colors.textLight,
-        color: "black"
     },
-})
+});

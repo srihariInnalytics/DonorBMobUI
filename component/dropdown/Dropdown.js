@@ -1,87 +1,99 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import { colors } from '../config/config';
+import React, { useState } from 'react';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { TextInput } from 'react-native-paper';
+import { colors } from '../../component/config/config';
 
-const DropdownComponent = ({ data, setSelectdp, label, value, Selectdp, disabled, heading }) => {
-  const [isFocus, setIsFocus] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(Selectdp);
+const TextBoxDropdown = ({
+  label,
+  data = [],
+  value,
+  onChange,
+  disabled = false,
+  displayExpr = 'desc',
+  valueExpr = 'UID',
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    if (Selectdp !== selectedValue) {
-      setSelectedValue(Selectdp); // Only update state if value actually changes
-    }
-  }, [Selectdp]); // Dependency array ensures it runs only when Selectdp changes
+  const openMenu = () => {
+    if (!disabled) setVisible(true);
+  };
+
+  const closeMenu = () => setVisible(false);
+
+  const handleSelect = (item) => {
+    onChange(item[valueExpr]);
+    closeMenu();
+  };
+
+  const selectedDisplay = data.find((d) => d[valueExpr] === value)?.[displayExpr] || '';
 
   return (
-    <View style={styles.container}>
-      <Dropdown
-        style={[styles.dropdown, isFocus && { borderColor: colors.data, borderWidth: 2 }]}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={data}
-        disabled={disabled} // Corrected prop name
-        search
-        maxHeight={400}
-        labelField="label"
-        valueField="value"
-        placeholder={heading}
-        searchPlaceholder="Search..."
-        value={selectedValue}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
-        onChange={(item) => {
-          if (selectedValue !== item.value) { // Prevent redundant updates
-            setSelectedValue(item.value);
-            setSelectdp(item.value);
-          }
-          setIsFocus(false);
-        }}
-        renderLeftIcon={() => (
-          <AntDesign
-            style={styles.icon}
-            color={isFocus ? colors.data : 'black'}
-            name="Safety"
-            size={20}
-          />
+    <TouchableWithoutFeedback onPress={closeMenu}>
+      <View style={styles.container}>
+        <TextInput
+          label={label}
+          value={selectedDisplay}
+          mode="outlined"
+          style={[styles.input, isFocused && { borderColor: colors.data }]}
+          theme={{
+            colors: {
+              primary: colors.data,
+              text: 'black',
+              placeholder: 'gray',
+              background: colors.textLight,
+              outline: 'gray',
+            },
+          }}
+          onFocus={() => setIsFocused(true)}   // only for border styling
+          onBlur={() => setIsFocused(false)}   // only for border styling
+          disabled={disabled}
+          onPressIn={openMenu}                 // opens menu when tapping textbox
+          right={<TextInput.Icon name="menu-down" onPress={openMenu} />}
+        />
+
+        {visible && (
+          <ScrollView
+            style={styles.dropdown}
+            keyboardShouldPersistTaps="handled"
+          >
+            {data.map((item, index) => (
+              <TouchableOpacity key={index} onPress={() => handleSelect(item)}>
+                <Text style={styles.item}>{item[displayExpr]}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         )}
-      />
-    </View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
-export default DropdownComponent;
+export default TextBoxDropdown;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-    padding: 3,
+    marginVertical: 8,
+    paddingHorizontal: 10,
+    zIndex: 999,
+  },
+  input: {
+    fontSize: 16,
+    borderRadius: 6,
+    backgroundColor: colors.textLight,
   },
   dropdown: {
-    height: 50,
-    borderColor: colors.data,
+    maxHeight: 150,
+    backgroundColor: colors.textLight,
+    borderRadius: 6,
+    marginTop: 2,
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 8,
+    borderColor: 'lightgray',
   },
-  icon: {
-    marginRight: 5,
-  },
-  placeholderStyle: {
-    fontSize: 12,
-  },
-  selectedTextStyle: {
-    fontSize: 12,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 12,
+  item: {
+    padding: 10,
+    fontSize: 16,
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'lightgray',
   },
 });
