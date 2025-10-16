@@ -1,4 +1,4 @@
-//git repo DonorBMobUI
+//git repo DonorBMobUI in srihariInnalytics
 import { registerRootComponent } from 'expo';
 
 import App from './App';
