@@ -38,7 +38,7 @@ const TextBoxDropdown = ({
           style={[styles.input, isFocused && { borderColor: colors.data }]}
           theme={{
             colors: {
-              primary: colors.data,
+              primary: colors.primary,
               text: 'black',
               placeholder: 'gray',
               background: colors.textLight,

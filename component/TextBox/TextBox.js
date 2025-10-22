@@ -3,8 +3,31 @@ import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-nati
 import { TextInput as PaperInput } from 'react-native-paper';
 import { colors } from '../../component/config/config';
 
-const TextBox = ({ label, onlyInteger = false, value, onChange, disabled = false }) => {
+const TextBox = ({
+    label,
+    onlyInteger = false,
+    value,
+    onChange,
+    disabled = false,
+    maxChar = 50, // ✅ new parameter to limit characters
+}) => {
     const [isFocused, setIsFocused] = useState(false);
+
+    const handleChangeText = (text) => {
+        let newText = text;
+
+        // ✅ Allow only numbers if onlyInteger is true
+        if (onlyInteger) {
+            newText = newText.replace(/[^0-9]/g, '');
+        }
+
+        // ✅ Limit characters if maxChar is set
+        if (maxChar && newText.length > maxChar) {
+            newText = newText.substring(0, maxChar);
+        }
+
+        onChange(newText);
+    };
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -12,12 +35,12 @@ const TextBox = ({ label, onlyInteger = false, value, onChange, disabled = false
                 <PaperInput
                     label={label}
                     value={value}
-                    onChangeText={onChange}
+                    onChangeText={handleChangeText}
                     mode="outlined"
                     style={styles.input}
                     theme={{
                         colors: {
-                            primary: colors.data,       // floating label & outline on focus
+                            primary: colors.primary,       // floating label & outline on focus
                             text: 'black',              // input text
                             placeholder: 'gray',        // placeholder
                             background: colors.textLight, // textbox background
@@ -27,8 +50,8 @@ const TextBox = ({ label, onlyInteger = false, value, onChange, disabled = false
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                     disabled={disabled}
-                    contentStyle={{ paddingVertical: 10 }} // ✅ adds space for label
-                    keyboardType={onlyInteger ? 'numeric' : 'text'}
+                    contentStyle={{ paddingVertical: 10 }}
+                    keyboardType={onlyInteger ? 'numeric' : 'default'}
                 />
             </View>
         </TouchableWithoutFeedback>

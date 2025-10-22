@@ -2,10 +2,9 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const API_BASE_URL = "https://iecwebapi2024.azurewebsites.net/api";
-const API_BASE_URL = "";
+const API_BASE_URL = "http://10.61.66.76:5000/blooddonation";
 const createAxiosInstance = async () => {
   let sessionId = '';
-
   try {
     const userData = await AsyncStorage.getItem('IECUser');
     if (userData) {

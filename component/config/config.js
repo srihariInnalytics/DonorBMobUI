@@ -1,17 +1,13 @@
 export const colors = {
-    primary: '#137175',
+    primary: 'red',
     success: '#28a745',
     error: '#dc3545',
     textLight: '#ffffff',
     textDark: '#333333',
     background: 'white',
     header: 'white',
-    data: '#137175',
-    divider: '#560374',
     filter:'#f5fff3',
-    icon: '#137175',
     card:'#ffffff',
-    button: '#538847'
   };
 
 export const toastConfig = {
