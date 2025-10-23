@@ -4,10 +4,10 @@ import { PaperProvider } from 'react-native-paper';
 import Toast from "react-native-toast-message";
 import Button from '../../component/Button/Button';
 import TextBox from '../../component/TextBox/TextBox';
+import KeyboardScrollView from '../../component/KeyboardScrollView/KeyboardScrollView'
 import Dropdown from '../../component/DropDown/DropDown';
 import { colors } from '../../component/config/config';
 import { getFromAPI, postToAPI } from "../../apicall/apicall";
-
 const LoginScreen = () => {
   const [Data, setData] = useState(
     {
@@ -112,16 +112,13 @@ const LoginScreen = () => {
 
   return (
     <PaperProvider>
-      <View style={styles.container}>
-
-        {/* Normal TextBox */}
+      <KeyboardScrollView>
         <TextBox
           label="Full Name"
           value={Data.name}
           onChange={(e) => whenTextBoxChanged(e, "name")}
         />
 
-        {/* Numeric TextBox */}
         <TextBox
           label="Phone Number"
           value={Data.phone}
@@ -154,6 +151,7 @@ const LoginScreen = () => {
           onChange={(val) => whenTextBoxChanged(val, "city")}
           displayExpr="name"
           valueExpr="latitude"
+          disabled={DD.City.length == 0}
         />
 
         <Dropdown
@@ -173,8 +171,7 @@ const LoginScreen = () => {
           onClicked={() => validationsBeforeSubmit()}
         />
 
-      </View>
-
+      </KeyboardScrollView>
       <Toast />
     </PaperProvider>
   );
@@ -184,7 +181,6 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingHorizontal: 16,
     paddingVertical: 20,
     backgroundColor: colors.textLight,
