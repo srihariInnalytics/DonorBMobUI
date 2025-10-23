@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
 import { TextInput as PaperInput } from 'react-native-paper';
 import { colors } from '../../component/config/config';
 
@@ -10,6 +10,7 @@ const TextBox = ({
     onChange,
     disabled = false,
     maxChar = 50, // ✅ new parameter to limit characters
+    missing = false // this will missing  fields 
 }) => {
     const [isFocused, setIsFocused] = useState(false);
 
@@ -53,8 +54,11 @@ const TextBox = ({
                     contentStyle={{ paddingVertical: 10 }}
                     keyboardType={onlyInteger ? 'numeric' : 'default'}
                 />
+                {missing && (value == '' || value == 0 || value == 'undefined' || value == null) &&
+                    < Text style={styles.error}>Enter this field</Text>
+                }
             </View>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback >
     );
 };
 
@@ -70,4 +74,10 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         backgroundColor: colors.textLight,
     },
+    error: {
+        color: 'red',
+        marginTop: 4,
+        fontSize: 14,
+        marginLeft: 3
+    }
 });

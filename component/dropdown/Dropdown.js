@@ -19,6 +19,7 @@ const TextBoxDropdown = ({
   disabled = false,
   displayExpr = 'desc',
   valueExpr = 'UID',
+  missing = false // this will missing  fields 
 }) => {
   const [visible, setVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -119,6 +120,9 @@ const TextBoxDropdown = ({
             </View>
           </TouchableWithoutFeedback>
         )}
+        {missing && (value == '' || value == 0 || value == 'undefined' || value == null) &&
+          < Text style={styles.error}>Select this field</Text>
+        }
       </View>
     </TouchableWithoutFeedback>
   );
@@ -165,4 +169,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'gray',
   },
+  error: {
+    color: 'red',
+    marginTop: 4,
+    fontSize: 14,
+    marginLeft: 3
+  }
 });

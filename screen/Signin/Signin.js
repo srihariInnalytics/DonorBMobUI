@@ -6,8 +6,11 @@ import Button from '../../component/Button/Button';
 import TextBox from '../../component/TextBox/TextBox';
 import KeyboardScrollView from '../../component/KeyboardScrollView/KeyboardScrollView'
 import Dropdown from '../../component/DropDown/DropDown';
+import DateBox from '../../component/DateBox/DateBox'
 import { colors } from '../../component/config/config';
 import { getFromAPI, postToAPI } from "../../apicall/apicall";
+
+
 const LoginScreen = () => {
   const [Data, setData] = useState(
     {
@@ -33,6 +36,7 @@ const LoginScreen = () => {
     State: [],
     City: [],
   })
+  const [Missing, setMissing] = useState(false)
 
   useEffect(() => {
     initialFetch()
@@ -89,7 +93,8 @@ const LoginScreen = () => {
   };
 
   const validationsBeforeSubmit = () => {
-    //validations go here
+    setMissing(!Missing)
+    return
     handleSubmit()
   }
 
@@ -113,10 +118,12 @@ const LoginScreen = () => {
   return (
     <PaperProvider>
       <KeyboardScrollView>
+
         <TextBox
           label="Full Name"
           value={Data.name}
           onChange={(e) => whenTextBoxChanged(e, "name")}
+          missing={Missing}
         />
 
         <TextBox
@@ -125,6 +132,7 @@ const LoginScreen = () => {
           onChange={(e) => whenTextBoxChanged(e, "phone")}
           onlyInteger={true}
           maxChar={10}
+           missing={Missing}
         />
 
         <TextBox
@@ -132,9 +140,9 @@ const LoginScreen = () => {
           value="India"
           onChange={(e) => null}
           disabled
+
         />
 
-        {/* Dropdown styled exactly like TextBox */}
         <Dropdown
           label="Select State"
           data={DD.State}
@@ -142,6 +150,7 @@ const LoginScreen = () => {
           onChange={(val) => whenStateChanged(val, "state")}
           displayExpr="name"
           valueExpr="latitude"
+          missing={Missing}
         />
 
         <Dropdown
@@ -152,6 +161,7 @@ const LoginScreen = () => {
           displayExpr="name"
           valueExpr="latitude"
           disabled={DD.City.length == 0}
+           missing={Missing}
         />
 
         <Dropdown
@@ -161,6 +171,7 @@ const LoginScreen = () => {
           onChange={(val) => whenTextBoxChanged(val, "bloodGroup")}
           displayExpr="Description"
           valueExpr="UID"
+           missing={Missing}
         />
 
         <Button
