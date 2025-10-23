@@ -10,7 +10,8 @@ const TextBox = ({
     onChange,
     disabled = false,
     maxChar = 50, // ✅ new parameter to limit characters
-    missing = false // this will missing  fields 
+    missing = false, // this will missing  fields 
+    missingMessage = 'Enter this field' //custom mesage
 }) => {
     const [isFocused, setIsFocused] = useState(false);
 
@@ -55,7 +56,7 @@ const TextBox = ({
                     keyboardType={onlyInteger ? 'numeric' : 'default'}
                 />
                 {missing && (value == '' || value == 0 || value == 'undefined' || value == null) &&
-                    < Text style={styles.error}>Enter this field</Text>
+                    < Text style={styles.error}>{missingMessage}</Text>
                 }
             </View>
         </TouchableWithoutFeedback >

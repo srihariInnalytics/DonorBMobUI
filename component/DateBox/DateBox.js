@@ -11,7 +11,7 @@ import { TextInput as PaperInput } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker'; // install this
 import { colors } from '../../component/config/config';
 
-const DateBox = ({ label, value, onChange, disabled = false, missing = false }) => {
+const DateBox = ({ label, value, onChange, disabled = false, missing = false , missingMessage = 'Select this field'}) => {
   const [isFocused, setIsFocused] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
 
@@ -69,7 +69,7 @@ const DateBox = ({ label, value, onChange, disabled = false, missing = false }) 
         )}
 
         {missing && (value == '' || value == 0 || value == 'undefined' || value == null) &&
-          < Text style={styles.error}>Select this field</Text>
+          < Text style={styles.error}>{missingMessage}</Text>
         }
 
       </View>

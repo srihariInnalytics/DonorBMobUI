@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { PaperProvider } from 'react-native-paper';
-import Toast from "react-native-toast-message";
+import { colors } from '../../component/config/config';
+import { getFromAPI, postToAPI } from "../../apicall/apicall";
+import { isMissingFields } from '../../shared/sharedFunctions'
+
+//components
 import Button from '../../component/Button/Button';
 import TextBox from '../../component/TextBox/TextBox';
 import KeyboardScrollView from '../../component/KeyboardScrollView/KeyboardScrollView'
 import Dropdown from '../../component/DropDown/DropDown';
 import DateBox from '../../component/DateBox/DateBox'
-import { colors } from '../../component/config/config';
-import { getFromAPI, postToAPI } from "../../apicall/apicall";
-
+import HeartLoader from '../../component/HeartLoader/HeartLoader' // heratLoader
+import Loader from '../../component/Loader/Loader' // normal loader
 
 const LoginScreen = () => {
   const [Data, setData] = useState(
@@ -37,6 +40,7 @@ const LoginScreen = () => {
     City: [],
   })
   const [Missing, setMissing] = useState(false)
+  const [Load, setLoad] = useState(false)
 
   useEffect(() => {
     initialFetch()
@@ -93,13 +97,18 @@ const LoginScreen = () => {
   };
 
   const validationsBeforeSubmit = () => {
-    setMissing(!Missing)
-    return
+    const validate = ["name", "phone", "state", "city", "bloodGroup"]
+    if (isMissingFields(Data, validate)) {
+      setMissing(true)
+      return
+    }
+    setMissing(false)
     handleSubmit()
   }
 
   const handleSubmit = async () => {
     try {
+      setLoad(true)
       let DataToApi = {
         ...Data,
         UID: 0,
@@ -113,10 +122,14 @@ const LoginScreen = () => {
     catch (e) {
       console.log("Error in Save ", e)
     }
+    finally{
+       setLoad(false)
+    }
   }
 
   return (
     <PaperProvider>
+      <HeartLoader load={Load} />
       <KeyboardScrollView>
 
         <TextBox
@@ -132,7 +145,8 @@ const LoginScreen = () => {
           onChange={(e) => whenTextBoxChanged(e, "phone")}
           onlyInteger={true}
           maxChar={10}
-           missing={Missing}
+          missing={Missing}
+          missingMessage="Enter a valid phone number"
         />
 
         <TextBox
@@ -161,7 +175,7 @@ const LoginScreen = () => {
           displayExpr="name"
           valueExpr="latitude"
           disabled={DD.City.length == 0}
-           missing={Missing}
+          missing={Missing}
         />
 
         <Dropdown
@@ -171,7 +185,7 @@ const LoginScreen = () => {
           onChange={(val) => whenTextBoxChanged(val, "bloodGroup")}
           displayExpr="Description"
           valueExpr="UID"
-           missing={Missing}
+          missing={Missing}
         />
 
         <Button
@@ -183,7 +197,6 @@ const LoginScreen = () => {
         />
 
       </KeyboardScrollView>
-      <Toast />
     </PaperProvider>
   );
 };

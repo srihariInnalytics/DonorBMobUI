@@ -19,7 +19,8 @@ const TextBoxDropdown = ({
   disabled = false,
   displayExpr = 'desc',
   valueExpr = 'UID',
-  missing = false // this will missing  fields 
+  missing = false, // this will missing  fields 
+  missingMessage = 'Select this field' //custom mesage
 }) => {
   const [visible, setVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -121,7 +122,7 @@ const TextBoxDropdown = ({
           </TouchableWithoutFeedback>
         )}
         {missing && (value == '' || value == 0 || value == 'undefined' || value == null) &&
-          < Text style={styles.error}>Select this field</Text>
+          < Text style={styles.error}>{missingMessage}</Text>
         }
       </View>
     </TouchableWithoutFeedback>
