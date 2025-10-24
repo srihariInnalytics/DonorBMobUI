@@ -4,6 +4,9 @@ import { PaperProvider } from 'react-native-paper';
 import { colors } from '../../component/config/config';
 import { getFromAPI, postToAPI } from "../../apicall/apicall";
 import { isMissingFields } from '../../shared/sharedFunctions'
+import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //components
 import Button from '../../component/Button/Button';
@@ -41,7 +44,7 @@ const LoginScreen = () => {
   })
   const [Missing, setMissing] = useState(false)
   const [Load, setLoad] = useState(false)
-
+  const navigation = useNavigation(); // Initialize navigation
   useEffect(() => {
     initialFetch()
   }, [])
@@ -115,15 +118,50 @@ const LoginScreen = () => {
         state: DD.State.find((item) => item.latitude == Data.state)?.name,
         city: DD.City.find((item) => item.latitude == Data.city)?.name,
       }
-      console.log("DataToApi", JSON.stringify(DataToApi, null, 2))
+      // console.log("DataToApi", JSON.stringify(DataToApi, null, 2))
       const resp = await postToAPI('/insert-update-user', DataToApi)
       console.log("Response after save ", resp)
+      if (resp.success == 1) {
+        await AsyncStorage.setItem('BloodToken', JSON.stringify({ DummyToken: 1 }));
+
+        Toast.show({
+          type: "success",
+          text1: "Success",
+          text2: "Data inserted successfully",
+        });
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Home" }],
+        });
+      }
+      else if (resp.success == 2) {
+        console.log("Inside else if")
+        Toast.show({
+          type: "error",
+          text1: "Mobile Number already exists",
+          text2: "Kindly login or use another phone number",
+        });
+      }
+      else {
+        console.log("Inside else")
+        Toast.show({
+          type: "error",
+          text1: "Cannot Register",
+          text2: "Kindly try after some time ",
+        });
+      }
+
     }
     catch (e) {
       console.log("Error in Save ", e)
+      Toast.show({
+        type: "error",
+        text1: "Cannot Register",
+        text2: "Kindly try after some time ",
+      });
     }
-    finally{
-       setLoad(false)
+    finally {
+      setLoad(false)
     }
   }
 

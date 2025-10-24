@@ -33,7 +33,7 @@ const NoInternetScreen = () => {
 const AppContent = () => {
   const { user, loading } = useAuth();
   const [isConnected, setIsConnected] = useState(true);
-
+  console.log("USERR" , user)
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
       setIsConnected(state.isConnected);
@@ -61,9 +61,8 @@ const AppContent = () => {
 
       <NavigationContainer ref={navigationRef}>
 
-        {/* {user && <AppNav />} this is for if use is avaliable ie token avaikable  allow him to get inside app */}
-        {/* the below code navigates to Home when logged in */}
-        <AppNav />
+        {/* {user == null ? <UnauthenticatedNav /> : <AppNav />} */}
+        <AppNav initialNav={user == null ? "Signin" : "Home"} />
       </NavigationContainer>
     </>
   );

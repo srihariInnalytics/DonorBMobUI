@@ -6,8 +6,7 @@ import { useAuth } from '../../auth/AuthContext'
 import { postToAPI, getFromAPI } from '../../apicall/apicall'
 import { getAPIFormat } from '../../apicall/apifFromats'
 import Toast from "react-native-toast-message";
-import { formatTOddmmyy, formatDateTimeFromApiToUITimeOnly, DateTimePickerToApiFormat, getCurrDateTime, mergeDateTimeforDatePicker } from '../../shared/sharedFunctions'
-import Loader from '../../component/loader/Loader'
+import Loader from '../../component/Loader/Loader'
 import { useNavigation } from "@react-navigation/native";
 
 const ProfileScreen = () => {
@@ -21,7 +20,7 @@ const ProfileScreen = () => {
     try {
       setLoad(true)
       logout();//to remove token in use AUth
-      navigation.replace("Login");
+      navigation.replace("Signin");
     } catch (e) {
       console.log("ERROR:", e);
     }
@@ -30,25 +29,13 @@ const ProfileScreen = () => {
     }
   };
 
-  const fetchData = async () => {
-    const DataToAPI1 = {
-      employeeId: user?.login?.employee_UID,
-    };
-    const [res1] = await Promise.all([
-      getFromAPI('/GetProfile?' + getAPIFormat(DataToAPI1)), //  5
-    ]);
-    setUserData(res1.data[0])
-  }
-  useEffect(() => {
-    fetchData()
-  }, [])
+
 
   return (
     <ScrollView style={styles.container}>
-      <Loader visible={Load} />
       {/* Profile Section */}
       <View style={styles.profileContainer}>
-        <Avatar.Text size={80} label={user?.userName?.charAt(0)} style={styles.avatar} />
+        <Avatar.Text size={80} label='Test' style={styles.avatar} />
         <Text style={styles.name}> {UserData.employeeName} </Text>
         <Text style={styles.uid}>UID: {UserData.employeeID} </Text>
       </View>
@@ -71,7 +58,6 @@ const ProfileScreen = () => {
         <DetailItem label="Designation" value={UserData.designation} />
         <DetailItem label="Personal No" value={UserData.phoneNumber} />
         <DetailItem label="Office No" value={UserData.mobileNumber} />
-        <DetailItem label="Date of Joining" value={formatTOddmmyy(UserData.doj)} />
         <DetailItem label="Address" value={UserData.address} />
       </View>
 

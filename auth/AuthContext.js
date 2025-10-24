@@ -13,9 +13,9 @@ export const AuthProvider = ({ children,onForceReload }) => {
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        const userData = await AsyncStorage.getItem('IECUser');
+        const userData = await AsyncStorage.getItem('BloodToken');
+        console.log("userData 1111111111" , userData)
         if (userData) {
-          // console.log("userData 1111111111" , userData)
           setUser(JSON.parse(userData));
         }
       } catch (error) {
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children,onForceReload }) => {
   const login = async (userData) => {
     //.log("USERDATA "   ,  userData)
     setUser(userData);
-    await AsyncStorage.setItem('IECUser', JSON.stringify(userData));
+    await AsyncStorage.setItem('BloodToken', JSON.stringify(userData));
     if (onForceReload) {
       onForceReload(); // Simulate restart
     }
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children,onForceReload }) => {
 
   const logout = async () => {
     setUser(null);
-    await AsyncStorage.removeItem('IECUser');
+    await AsyncStorage.removeItem('BloodToken');
     console.log("Logout called")
   };
 

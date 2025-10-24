@@ -9,42 +9,17 @@ import Signin from '../screen/Signin/Signin'
 
 const Stack = createStackNavigator();
 
-const AppNav = () => {
-
+const AppNav = ({ initialNav = "Signin" }) => {
   return (
-    <Stack.Navigator initialRouteName='Signin'>
-
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-      />
-
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ headerShown: false }}
-      />
-
-      <Stack.Screen
-        name="Signin"
-        component={Signin}
-      />
-
-
-      <Stack.Screen
-        name="Profile"
-        component={Profile}
-        options={{ title: 'Profile' }}
-      />
-
-      <Stack.Screen
-        name="Dummy"
-        component={Dummy}
-      />
-
+    <Stack.Navigator initialRouteName={initialNav}>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      <Stack.Screen name="Signin" component={Signin} />
+      <Stack.Screen name="Profile" component={Profile} options={{ title: 'Profile' }} />
+      <Stack.Screen name="Dummy" component={Dummy} />
     </Stack.Navigator>
-
   );
 };
+
 
 export default AppNav;
