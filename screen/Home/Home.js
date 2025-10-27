@@ -8,8 +8,10 @@ import { useAuth } from "../../auth/AuthContext";
 import DrawerLayout from "react-native-gesture-handler/DrawerLayout"; // ✅ Import DrawerLayout
 import { MaterialIcons } from "@expo/vector-icons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+//Screens
 import Dummy from "../Dummy/Dummy";
 import Dashboard from "../Dashboard/Dashboard";
+import BloodRequests from '../BloodRequests/BloodRequests'
 
 const SCREEN_WIDTH = Dimensions.get("window").width; // Get screen width
 
@@ -21,7 +23,8 @@ const HomeScreen = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false); // State to track drawer open/close
   const menus = {
     attendance: "Attendance",
-    dummy: 'Dummy'
+    dummy: 'Dummy',
+    bloodrequests: 'BloodRequests'
   }
   const [active, setActive] = useState(menus.dashboard); // State to track active menu item
 
@@ -72,6 +75,16 @@ const HomeScreen = () => {
           onPress={() => {
             toggleDrawer();
             setActive(menus.dummy);
+          }}
+        />
+
+        <Drawer.Item
+          icon={() => <FontAwesome5 name="calendar-check" size={25} color="#FF9800" />}
+          label="bloodrequests"
+          active={active === menus.bloodrequests}
+          onPress={() => {
+            toggleDrawer();
+            setActive(menus.bloodrequests);
           }}
         />
 
@@ -126,8 +139,8 @@ const HomeScreen = () => {
       <View style={styles.container}>
         {
           active === menus.dummy ? <Dummy />
-            // : active === menus.dummy ? <Dummy /> // for next route
-            : <Dashboard />
+            : active === menus.bloodrequests ? <BloodRequests /> // for next route
+              : <Dashboard />
         }
       </View>
     </DrawerLayout>

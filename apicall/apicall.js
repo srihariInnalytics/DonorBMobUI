@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // const API_BASE_URL = "http://192.168.0.130:5000/blooddonation"; //mesh 2
-const API_BASE_URL = "http://10.61.66.76:5000/blooddonation"; //mine
+const API_BASE_URL = "http://10.210.244.76:5000/blooddonation"; //mine
 const createAxiosInstance = async () => {
   let sessionId = '';
   try {
