@@ -20,7 +20,7 @@ export default function Dashboard() {
 
     const onChildPress = (child) => {
         console.log( child.navigate);
-        navigation.navigate(String(child.navigate))
+        navigation.navigate(String(child.navigate))//comment
     };
 
     const menuData = [
