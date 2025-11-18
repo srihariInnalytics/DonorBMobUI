@@ -6,7 +6,7 @@ import HomeScreen from '../screen/Home/Home';
 import Profile from '../screen/Profile/Profile'
 import Dummy from '../screen/Dummy/Dummy'
 import Signin from '../screen/Signin/Signin'
-
+import PackingList from '../screen/PackingList/PackingList'
 const Stack = createStackNavigator();
 
 const AppNav = ({ initialNav = "Signin" }) => {
@@ -17,6 +17,7 @@ const AppNav = ({ initialNav = "Signin" }) => {
       <Stack.Screen name="Signin" component={Signin} />
       <Stack.Screen name="Profile" component={Profile} options={{ title: 'Profile' }} />
       <Stack.Screen name="Dummy" component={Dummy} />
+      <Stack.Screen name="PackingList" component={PackingList} />
     </Stack.Navigator>
   );
 };

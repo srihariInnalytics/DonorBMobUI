@@ -97,13 +97,7 @@ const HomeScreen = () => {
     navigation.setOptions({
       headerTitle: () => (
         <View style={styles.headerContainer}>
-          <IconButton
-            icon="menu"
-            iconColor={colorss.textDark}
-            onPress={toggleDrawer} // ✅ Opens drawer
-            style={styles.menuButton}
-          />
-          <Image source={require('../../assets/iec_logo.png')} style={styles.logo} />
+          <Image source={require('../../assets/inalytics.png')} style={styles.logo} />
         </View>
       ),
       headerStyle: { backgroundColor: colorss.header },
@@ -137,11 +131,7 @@ const HomeScreen = () => {
       onDrawerClose={() => setIsDrawerOpen(false)}
     >
       <View style={styles.container}>
-        {
-          active === menus.dummy ? <Dummy />
-            : active === menus.bloodrequests ? <BloodRequests /> // for next route
-              : <Dashboard />
-        }
+        <Dashboard />
       </View>
     </DrawerLayout>
   );
@@ -182,7 +172,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 100,
-    height: 40,
+    height: 250,
     resizeMode: 'contain',
   },
 
