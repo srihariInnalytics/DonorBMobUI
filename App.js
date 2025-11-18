@@ -62,7 +62,8 @@ const AppContent = () => {
       <NavigationContainer ref={navigationRef}>
 
         {/* {user == null ? <UnauthenticatedNav /> : <AppNav />} */}
-        <AppNav initialNav={user == null ? "Signin" : "Home"} />
+        {/* <AppNav initialNav={user == null ? "Signin" : "Home"} /> */}
+        <AppNav initialNav={user == null ? "Home" : "Home"} />
       </NavigationContainer>
     </>
   );

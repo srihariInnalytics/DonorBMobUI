@@ -100,7 +100,7 @@ const LoginScreen = () => {
   };
 
   const validationsBeforeSubmit = () => {
-    const validate = ["name", "phone", "state", "city", "bloodGroup"]
+    const validate = ["name", "phone", "state", "city", "bloodGroup", "dob"]
     if (isMissingFields(Data, validate)) {
       setMissing(true)
       return
@@ -192,7 +192,6 @@ const LoginScreen = () => {
           value="India"
           onChange={(e) => null}
           disabled
-
         />
 
         <Dropdown
@@ -225,6 +224,14 @@ const LoginScreen = () => {
           valueExpr="UID"
           missing={Missing}
         />
+
+        <DateBox
+          label="DOB"
+          value={Data.dob}
+          onChange={(e) => whenTextBoxChanged(e, "dob")}
+          missing={Missing}
+        />
+
 
         <Button
           name="Register"
